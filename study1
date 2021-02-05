@@ -1,0 +1,28 @@
+import java.util.*;
+import java.util.regex.Pattern;
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String num = sc.nextLine();
+        int n = Integer.parseInt(num);
+        
+        String[] arr = new String[n];
+        for(int i=0; i<n; i++){
+            arr[i] = sc.nextLine();
+            
+            String pat1 = "s$|sh$|ch$|o$|x$";
+            String pat2 = "f$|fe$";
+            
+        
+            if(Pattern.matches(pat1, arr[i])) arr[i] += "es";
+            else if(Pattern.matches(pat2, arr[i])) arr[i] = arr[i].replaceAll(pat2, "ves");
+            
+            
+            System.out.println(arr[i]);
+        }
+        
+        
+    }
+}
