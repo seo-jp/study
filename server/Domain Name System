@@ -1,0 +1,138 @@
+#생활코딩 WEB2 - Domain Name System 완강
+
+1. 수업소개
+
+HOST : 인터넷에 연결된 컴퓨터 한대 한대..
+DNS의 핵심은 DNS 서버 -> 수많은 IP 주소가 저장되어있다.
+
+com ---요청---> server        DNS서버
+ |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |
+ (com이 도메인을 주면 DNS서버는 요청서버의 진짜IP주소를 전달해줌)
+ 
+ 
+ 2. IP 주소와 host
+ 
+ hosts 파일 : 특정 ip 주소를 내가 기억하기 쉬운 글로 저장해놓은 파일.
+ 마치 IP주소록 같은느낌.
+ 옛날엔 도메인이아닌 hosts로 관리를 했었다.
+ 
+ ex ) 59.231.11.152 web1.com
+ 이런식으로 쓰면 그 파일을 가지고있는 컴퓨터의 우선순위는 hosts > DNS서버 이다.
+ 
+ 
+ 3. 도메인 이름과 보안
+ 
+ 그러나 누군가 나의 hosts파일을 조작한다면 ?
+ 59.231.11.152 (범죄피싱사이트) 은행.com
+ 이런식으로 조작해서 피싱범죄가 일어날가능성이 있음.
+ 
+ 그렇기에 이 hosts 파일은 보안에 아주 취약하다.
+ 그래서 우리가 https 를 사용하는 이유는 사이트가 변조될경우 안전성을 체크해주기때문.
+ 
+ 
+ 4. DNS의 태동
+ 
+ DNS의 이전상황, 현재는 사용되고있지않음.
+ 
+ 각자가 hosts를 관리하는것이 아닌 Stanford Research Institute라는 기관이 수작업을 통해 hosts 파일을 관리했다.
+ 그러나 인터넷이 점점 커지고 발달하며 여러가지 문제점들이 나오기시작함.
+ 
+ 
+ 5. DNS의 원리
+
+ 컴퓨터가 인터넷과 접속할때 DNS 서버의 IP가 자동으로 장착되어있기때문에 (DHCP)
+ IP가 아닌 도메인네임으로 접속 시 컴퓨터는 두번의 검사를함.
+ 첫번째로 hosts 파일 검사, 두번째로 DNS서버에서 검사
+ 
+ 요새는 DNS서버가 자동으로 관리되는중이라고함.
+ 
+ 
+ 6. Public DNS
+ 
+ 내 컴퓨터에 자동으로 깔려져있는 DNS서버는 ISP회사에서 자동으로 셋팅을 해주는것임.
+ 그렇기에 100프로는 아니지만 나의 인터넷접속사이트 기록이 유출될수도있다는것.
+ 그래서 수동으로 DNS서버를 바꿀 수 있다. (구글이나 1.1.1.1 등 여러개가있음)
+ *DNS서버 설정칸이 두개인이유 : 하나가 뻑나면 다른하나 쓰라고 (스페어)
+ 
+ 
+ 7. DNS Internal
+ 
+blog.example.com.
+
+blog : sub
+example : second-Level
+com : top-lecel
+. : root
+
+상위 -> 하위 는 알수있지만 단계를 건너뛰는 정보는 알수없음.
+최소한 모든 컴퓨터는 root서버의 IP주소를 알고있다.
+
+
+8. DNS Register
+
+사실상 행정기관
+_ICANN : Root name server
+_Registry 등록소 ㅣ .com과 같은 Top Level 도메인
+_Registar 등록대행자
+
+유통과정
+사용자 ----> 등록대행자 ----> 등록소
+
+루트네임서버는 전세계의 탑레벨도메인 주소를 기억한다.
+탑레벨도메인은 네임서버를 알고있다.
+네임서버는 요청자의 아이피주소와 네임을 기록한다.
+
+DNS서버 -> ICANN Root 서버 -> Top Level Domain -> NSserver 네임서버
+
+Registrant(등록자)  ---->  Registrar(등록대행자)  -------------->  Registry(등록소)  -------------------------->  ICANN
+93.184.216.34       ---->  authoritatice name server  --------->   Top-level-domain -------------------------->  Root Name Server
+                           a.iana-servers.net                      a.gtld-servers.net                            a.root-servers.net
+                           example.com                             .com                                          .
+                           example.com A 93.184.216.34             example.com NS a.iana-servers.net             com NS a.gtld-servers.net
+                                                                                                                      
+                                                                                                                      ↑
+                                                                                                                      |
+                                                                                                                      |
+                                                                 DNS server       ------------------------------------|
+                                                                 168.126.63.1
+                                                                 .NS a.root-servers.net
+
+ 
+ 
+
+
+9. ns look up
+dns레코드 조회도구.
+dns서버로부터 여러가지 정보를 얻을 수 있다.
+
+cmd > nslookup example.com
+      nslookup -type=ns
+      nslookup example.com a.iana-servers.net
+      
+
+10. 나만의 도메인 이름 장만하기
+
+등록 대행자를 통해 레지스트리에 등록하는 방법
+freenom.com 같은 사이트에서 무료 혹은 유료로 도메인 구입 가능.
+도메인 레코드 추가로 서브도메인 사용가능 (ip다르게 설정가능함)
+
+네임 : 비워두면 메인. 채우면 서브
+타입 : IP타입 설정
+TTL : 캐시가 지속되는 시간
+타켓 : IP어드레스
+
+
+11. DNS 레코드 & CNAME
+
+example.com ---접속---> A레코드에 의해 ---> 192.0.0.1 로 열림
+www.example.com ---접속---> CNAME레코드에 의해 ---> example.com로 이동 (그리고 a레코드에의해 192.168..로 열림)
+
+이 작업을 하는이유 : ip가 동적일 경우를 대비함.
+A레코드 : 도메인에 대한 IP주소
+CNAME : 도메인에 대한 또다른 네임
+
+
+12. Github에 도메인 연결하기
+
+Github pages를 이용해 도메인을 연결할수있다.
+ 
