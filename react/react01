@@ -18,8 +18,77 @@ create-react-app . : 개발환경 구축
 
 편집기 > react-app폴더 이동
 npm run start
+Ctrl + c : 종료
+
+
+* JS 코딩하는법
+
+어떤 디렉토리 구조를 가지고있을까?
+
+public : index.html이 있는곳.
+         index.html에서 중요한것 = <div id="root"></div>
+         사용자가 만든 컴퍼넌트들은 이 root태그 안쪽에 들어간다.
+         이 컴퍼넌트들은 어디서 수정하고 만들수있을까 ? 
+
+src    : 바로 여기 !
+         그중에서 엔트리파일, 진입파일은 index.js 이다.
+         ReactDOM.render(<App />,document.getElementById('root'));
+         <App /> = 컴퍼넌트(사용자 정의태그).
+         이 컴퍼넌트는 각 파일을 임포트해서 사용한다 = import App from './App';(.js가 생략되있음)
+         
+         기존 App.js 파일은 함수형과 클래스형 중 하나임. 내껀 함수형인데 강의에선 클래스형으로 사용한다고하니 수정함
+         
+         import logo from './logo.svg';
+         import './App.css';
+         import React, { Component } from 'react';
+
+         class App extends Component {
+           render() {
+             return (
+               <div className="App">
+                 실제 구현코드
+               </div>
+             );
+           }
+         }
+
+         export default App;
+         
+         
+
+우와아아아
+리액트는 따로 서버 재시작안해도 코드바꾸는대로 리로드해줌
+야바이
+
+
+* CSS 코딩하는법
+
+src > index.css
+
+
+* 배포하는법 (디플로이)
+
+크롬 > 네트워크 선택 후 Empty cache and Hard Reload 해주기
+얘를 누르면 캐쉬라는게 다 없어져버림.
+얘를 누르면 1.7메가 정도 새로 다운받았다는게 보이는데, 이것은 리액트가 개발편의성을 위해
+이것저것 추가한것이다 . 이게 create-react-app 생성 시 단점.. 무거움 + 보안적 문제
+그렇기에 빌드할때엔 
+npm run build 로 실행.
+그렇다면 디렉토리 구조에서 이전엔 없었던 build 라는 디렉토리가 생성된다.
+
+이 build파일에도 index.html 파일이있는데 공백이 하나도없고 읽을수도없음 ..
+이건 create-react-app이 프로덕션환경에서 사용되는 앱을 만들기위해
+우리가 이미 가지고있는 index.html에서 가지고있는 공백과같이 불필요한 것들을 싹 제거한것이다.
+즉, 알아서 불필요한 용량을 제거해주고 보안적,심미적으로 좋지않은것들을 다 없애준다.
+
+실제로 서비스할땐 build안의 파일을 쓰면된다.
+
+npm을 통해 설치하는 간단한 웹 서버가 있음. (serve)
+npm install -g serve : 이컴퓨터 어디에서나 serve라는 명령어를 통해 웹서버 설치가능
+npx serve -s build : 한번만 실행시킬 웹서버 + 실행시킬때 빌드라는 디렉토리를 document root로 설정.
+
+용량이 훨씬 줄어든것을 알수있다.
 
 
 
-
-
+         
