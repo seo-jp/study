@@ -90,5 +90,158 @@ npx serve -s build : 한번만 실행시킬 웹서버 + 실행시킬때 빌드�
 용량이 훨씬 줄어든것을 알수있다.
 
 
+* 리액트가 없다면
 
-         
+public 은 우리가 npm start를 했을때 파일을 찾는 document root 다.
+
+
+* 컴포넌트 만들기 1 - 2
+
+자바스크립트 최신스펙 class 안의 함수는 function을 생략함
+컴퍼넌트를 만들땐 꼭! 하나의 최상위 태그만 써야한다.
+
+
+#App.js
+
+class Subject extends Component {
+  render(){
+    return (
+      <header>
+        <h1>WEB</h1>
+        world wide web!
+      </header>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+         <Subject />
+      </div>
+    );
+  }
+}
+
+
+오 .. 이런구조로
+그리고 리액트에서 쓰는건 자바스크립트가 아님.
+JSX 라는 언어인데 이걸 리액트가 자바스크립트언어로 바꿔서 처리해주는것이다.
+
+-- 실습끝
+
+import logo from './logo.svg';
+import './App.css';
+import React, { Component } from 'react';
+
+
+class Subject extends Component {
+  render(){
+    return (
+      <header>
+        <h1>WEB</h1>
+        world wide web!
+      </header>
+    );
+  }
+}
+
+class TOC extends Component {
+  render(){
+    return (
+      <nav>
+        <ul>
+            <li>list1</li>
+            <li>list2</li>
+            <li>list3</li>
+        </ul>
+    </nav>
+    )
+  }
+}
+
+class Content extends Component {
+  render(){
+    return (
+      <article>
+        <h2>HTML</h2>
+        HTML is HyperText Markup Language.
+      </article>
+    )
+  }
+}
+
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+         <Subject />
+         <TOC />
+         <Content />
+      </div>
+    );
+  }
+}
+
+export default App;
+
+이런식으로 정리정돈을 해나가며 복잡도를 획기적으로 낮춘것부터 한걸음 시작하는..
+
+
+* props
+
+우리가 이렇게 정리한 태그를 패키지로 만들어서 인터넷에 올리면
+다른사람이 우리가 정의한 태그를 자신의 어플리케이션에 붙여서 사용할수도있다. 스.고.이
+
+props 는 컴퍼넌트의 속성을 나타낼 수 있다.
+
+class Subject extends Component {
+  render(){
+    return (
+      <header>
+        <h1>{this.props.title}</h1>
+        {this.props.sub}
+      </header>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+         <Subject title="WEB" sub="world wide web!" />
+         <TOC />
+         <Content />
+      </div>
+    );
+  }
+}
+
+이렇게 입력값에 따라 달라지는 출력값 구현.
+
+
+* React Developer Tools
+
+개발에있어서 중요한것은?
+1.설명서를 볼줄아는것.
+2.현재 상태를 측정하고 분석하는것.
+3.다른사람에게 질문하는것.
+4.검색하는것.
+
+현재의 상태를 알아내는 도구 > 크롬웹앱 React Developer Tools
+
+
+* Component 파일로 분리하기
+
+더욱 깔끔한 정리를위해 파일로 분리하기
+기본적으로 src 폴더에 새폴더를만든다.
+
+
+* State 소개
+
+props 와 state를 비교하며 알아보자
+
+
