@@ -1,0 +1,25 @@
+생활코딩 리액트 강의
+
+* 개발환경 설정
+
+npm : app 설치
+npx : react라는 앱을 임시로 설치해 딱 한번만 설치하고 지우는 애라고 생각하면됨. 실행할때마다 얘를 최신으로 다운받음.
+
+npm install -g create-react-app : 리액트 설치
+create-react-app -V : 설치한 리액트 버전확인
+
+리액트 프로젝트담당 폴더를 하나 만든다.
+그리고 cd 폴더이동
+create-react-app . : 개발환경 구축
+
+
+
+* 샘플 웹앱 실행
+
+편집기 > react-app폴더 이동
+npm run start
+
+
+
+
+
