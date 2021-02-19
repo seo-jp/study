@@ -243,5 +243,151 @@ class App extends Component {
 * State 소개
 
 props 와 state를 비교하며 알아보자
+보통 제품은 내부적인 구현을 위해 다양한 상태들을 사용하고, 다양한 내부적 조작장치, 매커니즘들을 가지고있는데
+이걸 스테이트 로 비유할수있다.
+프롭스는 사용자가 컴퍼넌트를 사용하는 입장에서 중요한것.
+스테이트는 프롭스의 값에 따라 내부구현에 필요한 데이터들 ..이라고 볼수있다.
+
+컴퍼넌트의 속성을 이것저것 바꾸고싶을때, 사용자는 props를 통해 컴퍼넌트를 조작할 수 있다.
+그러나 사용자는 알필요도없고 알아서는 안되는 내부적인것들을 state라고 한다.
+
+Props  ---------->  Component ( ( state  ) )
+
+Props와 State는 철저하게 분리시켜야한다.
+
+
+
+* State 사용
+
+class App extends Component {
+  
+  //초기화 (App실행시 가장 먼저 실행)
+  constructor(props){
+    super(props);
+    //state값 초기화
+    this.state = {
+      Subject:{title:'WEB', sub:'World Wide Web'}
+    }
+  }
+
+  //state값에 sub가있는지없는지 App.js만 봐서는 모름. 내부의 전선들을 철저하게 숨기는것이 좋은 코드이다.
+  //상위컴퍼넌트의 state값을 하위컴퍼넌트의 props의 값으로 전달하는것은 얼마든지 가능합니다.
+  render() {
+    return (
+      <div className="App">
+         <Subject
+                title={this.state.Subject.title}
+                sub={this.state.Subject.sub} />
+         <TOC />
+         <Content title="HTML" sub="HTML is HyperText Markup Language." />
+      </div>
+    );
+  }
+}
+
+
+
+* Key
+
+여러개의 state 값 사용.
+
+#App.js
+
+this.state = {
+      Subject:{title:'WEB', sub:'World Wide Web'},
+      Content:[
+        {id:1,title:'HTML',desc:'HTML is for information ....'},
+        {id:2,title:'CSS',desc:'CSS is for design ....'},
+        {id:3,title:'Javascript',desc:'Javascript is for interactive ....'}
+      ]
+    }
+
+
+#TOC.js
+
+class TOC extends Component {
+    render(){
+        var lists = [];
+        var data = this.props.data;
+        var i = 0;
+        while(i < data.length){
+            lists.push(<li key={data[i].id}><a href={"/content/"+data[i].id}>{data[i].title} : {data[i].desc}</a></li>);
+            i = i + 1;
+        }
+        //이렇게 자동으로 생성시킬땐 식별자가 되는 key값이 필요하다.(임의설정)
+
+        return (
+        <nav>
+          <ul>
+              {lists}
+          </ul>
+      </nav>
+      )
+    }
+  }
+
+결국 state값을 props가 가져다 쓰는것같은데
+data는  <TOC data={this.state.Content} /> 여기서설정.
+
+
+
+* 이벤트 state props 그리고 render 함수
+
+
+클릭한것에 따라 해당되는 컨텐츠가 출력되게해보자
+이벤트에따라 state가 바뀌고, 바뀐 state가 props값으로 전달됨으로서 동적으로 어플리케이션이 바뀌는것이 목표.
+
+render : 어떤 html을 그릴것인가.
+react에서는 props나 state값이 바뀌면 , 그 state를 가지고있는 component에 render함수가 다시 호출되며,
+하위 component의 render함수도 다시 호출이됨.
+state에서 쓰는 값 이름들은 내가 맘대로 만들어도 되는것이구나 .. 
+
+class App extends Component {
+ 
+  constructor(props){
+    super(props);
+    this.state = {
+      mode:'welcome',
+      Subject:{title:'WEB', sub:'World Wide Web'},
+      welcome:{title:'Welcome', desc:'Hello React!!'},
+      TOC:[
+        {id:1,title:'HTML',desc:'HTML is for information ....'},
+        {id:2,title:'CSS',desc:'CSS is for design ....'},
+        {id:3,title:'Javascript',desc:'Javascript is for interactive ....'}
+      ]
+    }
+  }
+
+  render() {
+    var _title,_desc = null;
+    if(this.state.mode == 'welcome'){
+      _title = this.state.welcome.title;
+      _desc = this.state.welcome.desc;
+    }else if(this.state.mode == 'read'){
+      _title = this.state.TOC[0].title;
+      _desc = this.state.TOC[0].desc;
+    }
+    return (
+      <div className="App">
+         <Subject
+                title={this.state.Subject.title}
+                sub={this.state.Subject.sub} />
+         <TOC data={this.state.TOC} />
+         <Content
+                title={_title}
+                desc={_desc} />
+      </div>
+    );
+  }
+}
+
+즉 리액트는 링크를 클릭하면 url을 타고 이동하는것이 아닌 이벤트를 발생시켜 state,props을 변경해주고
+그에따라 페이지가 다시 렌더링되는것임.
+그렇기에 싱글페이지웹앱이라고한다. (유투브 지우영님댓글참고)
+
+
+
+* 이벤트 설치
+
 
 
