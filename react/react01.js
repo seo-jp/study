@@ -389,5 +389,96 @@ class App extends Component {
 
 * 이벤트 설치
 
+리액트에선 onClick
+온클릭을 걸어농고 이벤트를 실행시키면 (function(e) 파라미터값에 event)
 
+
+* bind 함수 이해하기
+
+* this = component 자신
+기본적으로 render라는 함수안에서 this는 이 render함수가 속해있는 컴퍼넌트 자체를 가르키는데
+렌더 함수 안에서 쓰이는 함수는 이상하게 this가 아무값도 없다.
+이렇게 this값이 없을때 강제로 this값을 주입하는 방법이 있다.
+
+>> 예시
+
+var obj = {name:'egoing'};
+
+function bindTest(){
+  console.log(this.name);
+}
+
+이러한코드에서 bindTest안의 this를 obj로 설정하고싶을때
+내가만든 함수에 bind함수를 걸어준다.
+var bindTest2 = bindTest.bind(obj);
+그러면 bindTest안의 this는 obj가 된다.
+
+return (
+      <div className="App">
+        <header>
+          <h1><a href="/" onClick={function(e) {
+            console.log(e);
+            e.preventDefault(); //a태그의 기본적인 동작을 중지(페이지 이동)
+            this.setState({
+              mode:'welcome'
+            });
+          }.bind(this)}>{this.state.Subject.title}</a></h1>
+          {this.state.Subject.sub}
+        </header>
+         <TOC data={this.state.TOC} />
+         <Content
+                title={_title}
+                desc={_desc} />
+                
+      </div>
+    );
+
+그렇기에 bind에 this를 하게되면 App이라고하는 컴퍼넌트 자체를 가르키는 객체를 이 함수안으로 주입해서 이 함수안에서 this는 그 객체가 되게 하는것.
+
+
+*setState함수 이해하기
+
+동적으로 페이지를 바꾸려면 setState함수를 사용한다. 직접 때려박는거 x
+this.state.mode = 'welcome'; 이렇게 바꾸면 리액트는 모른다..
+
+this.setState({
+  mode:'welcome'
+});
+
+
+* 컴포넌트 이벤트 만들기
+
+// App.js
+return (
+      <div className="App">
+        <header>
+         <Subject
+         title={this.state.Subject.title}
+         sub={this.state.Subject.sub}
+         onChangePage={function(){
+            this.setState({mode:'welcome'});
+         }.bind(this)} />
+         </header>
+         <TOC data={this.state.TOC} />
+         <Content
+                title={_title}
+                desc={_desc} />
+                
+      </div>
+    );
+
+// Subject.js
+class Subject extends Component {
+    render(){
+      return (
+        <header>
+          <h1><a href="/" onClick={function(e){
+            e.preventDefault();
+            this.props.onChangePage();
+          }}>{this.props.title}</a></h1>
+          {this.props.sub}
+        </header>
+      );
+    }
+  }
 
