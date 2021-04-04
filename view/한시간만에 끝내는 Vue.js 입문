@@ -1,0 +1,93 @@
+Vue.js는 웹프론트엔드 프레임워크 입니다.
+
+- 컴포넌트 기반의 SPA를 구축할 수 있게 해주는 프레임워크
+
+- 컴포넌트
+1. 웹을 구성하는 로고,메뉴바,버튼,모달창 등 웹 페이지 내의 다양한 UI 요소
+2. 재사용 가능하도록 구조화 한 것
+
+- SPA
+1. 단일 페이지 어플리케이션
+2. 하나의 페이지 안에서 필요한 영역 부분만 로딩 되는 형태
+3. 빠른 페이지 변환
+4. 적은 트래픽 양
+
+최초의 로딩 시 모든 js파일과 css파일을 가져와서 로딩을 하기때문에 처음 로딩하는 js파일 사이즈가 크면 클 수록
+초기 로딩 시간이 길어지긴함.
+
+
+Vue cli > 기본적으로 프로젝트 구조를 자동적으로 생성해줌. 웹팩 설정 등등 ... 굉장히 편리
+
+
+
+
+1. Vue cli 설치
+
+터미널 : npm install -g @vue/cli
+
+2. 프로젝트 생성
+
+터미널 : vue create 폴더명
+
+-- 옵션 선택가능
+default (babel,eslint 자동설치) / Manually (Babel,Linter 기본 / 타입스크립트 라우터 등등 ...)
+
+일단 디폴트로 설치함.
+그리고 vue 2,3 중에 선택가능한데 일단 나는 2로 선택.
+
+3. 기본 폴더
+
+build/ : webpack 빌드 관련 설정
+config/ : 프로젝트에 사용되는 설정
+ - dev.env.js : npm start 시 적용되는 설정
+ - prod.env.js : npm run build로 배포 버전에 적용되는 설정
+dist/: 배포버전의 Vue 어플리케이션 파일들이 모여있는 디렉토리. npm run build 명령어 실행시 생성
+node_modules/: npm으로 설치되는 서드파트 라이브러리들이 모여있는 디렉토리
+src/ : 실제 대부분의 코딩이 이루어지는 디렉토리
+ - assets/ : 이미지 등 어플리케이션에 사용되는 파일들이 모여있는 디렉토리
+ - components/ : Vue 컴포넌트들
+ - router/ : vue-router 설정을 하는 디렉토리
+ - App.vue : 가장 최상위 컴포넌트
+ - main.js : 가장먼저 실행되는 자바스크립트 파일. Vue 인스턴스를 생성하는 역할
+ - index.html : 어플리케이션의 뼈대가 되는 html파일
+
+4. 서버 스타트
+
+터미널 : npm run serve
+
+5. Vue router 설치
+
+터미널 : npm install vue-router --save
+
+라우팅 : 웹페이지간의 이동수단. SPA에선 미리 해당하는 컴포넌트를 다 받아오고 라우팅을 이용해 특정부분을 갱신하는것.
+
+5. layout 폴더 추가
+
+src/component/ layout이라는 폴더를 추가.
+Header나 Footer같이 레이아웃 페이지를 추가한다.
+
+6. vue bootstrap 설치
+
+터미널 : npm install vue bootstrap-vue bootstrap
+
+그리고 부트스트랩을 쓰겠다는 의미로 main.js 에다가 추가를 해줘야함.
+
+import Vue from 'vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+
+
+
+7. Header.vue 작성
+
+뷰는 크게 <template> 과 <scipt>로 구성되는데 템플릿은 말그대로 html적인 디자인담당, script는 자바스크립트 부분이라고 생각하면된다.
+
+
