@@ -88,6 +88,46 @@ Vue.use(IconsPlugin)
 
 7. Header.vue 작성
 
-뷰는 크게 <template> 과 <scipt>로 구성되는데 템플릿은 말그대로 html적인 디자인담당, script는 자바스크립트 부분이라고 생각하면된다.
+뷰는 크게 <template> 과 <scipt>로 구성되는데 템플릿은 말그대로 html적인 디자인담당, script는 자바스크립트 부분이라고 생각하면된다
+부트스트랩 홈페이지에 가서 Navbar 코드를 복사해 템플릿 영역안에 붙여넣어준다.
+그리고 스크립트 부분은
+<script>
+export default {
+    name: "header",
+};
+</script>
+
+이렇게 작성.
+
+
+8. views 폴더 추가
+src/component/ views라는 폴더를 추가.
+페이지들 저장하는곳
+
+
+9. App.vue 수정
+
+<script>
+import Header from './components/layout/Header.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Header
+  }
+}
+</script>
+
+요렇게 방금 만들어준 헤더 컴포넌트로 갈아끼워준다.
+그러면 템플릿에서 헤더 컴포넌트 사용가능.
+
+<template>
+  <div id="app">
+    <Header />
+  </div>
+</template>
+
+이렇게!
+
 
 
