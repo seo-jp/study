@@ -128,6 +128,106 @@ export default {
 </template>
 
 이렇게!
+그리고 라우팅을 해야해서 새로 코드를 추가해주자.
+
+<template>
+  <div id="app">
+    <Header />
+    <div id="content" class="content">
+      <router-view></router-view>
+    </div>
+  </div>
+</template>
+
+이렇게 헤더 밑에 path가 바뀔때마다 바뀔 페이지를 재로딩하는 방식의 설계.
 
 
+10. views 파일에 Home.vue 추가
+
+<template>
+    <div>
+        <h1>Welcome to Home!</h1>
+    </div>
+</template>
+
+<script>
+export default {
+    
+}
+</script>
+
+11. views 파일에 About.vue 추가
+
+<template>
+    <div>
+        <h1>About page</h1>
+    </div>
+</template>
+
+<script>
+export default {
+    
+}
+</script>
+
+12. 라우터 선언
+
+라우터는 설치 한 뒤에 사용하겠다고 선언을 해줘야한다.
+src/router.js 라는 파일을 하나 만들자.
+
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "./views/Home";
+import About from "./views/About";
+
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+    mode: "history",
+    routes: [
+        {path:"/", component: Home},
+        {path:"/about", component: About}
+    ]
+})
+
+export default router;
+
+
+그리고 이렇게 라우터를 선언해줘야한다!
+그리고 다시 main.js로 고고
+
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+요렇게 라우터를 import 시킨 뒤
+
+new Vue({
+  router,
+  render: h => h(App),
+}).$mount('#app')
+
+여기서 라우터를 정의해주면된다.
+이렇게되면 앱을 마운트할때 라우트를 쓸수있는 구조가 된다.
+
+
+
+13. Vue의 라이프사이클
+
+- beforeCreate : Vue.js 라이프사이클중 가장먼저 실행이되는 훅
+- create : 실제 뷰 컴퍼넌트 내에서 다양한 메소드 등 특정데이터를 감시를 한다던지 .. 데이터라는 옵션을 통해 화면상에 렌더링,바인딩해야하는 부분들을
+           코드로 만들어 사용하게된다. create는 그런 옵션에 대한 설정을 완료하는 시점이라고 생각하면된다.
+- beforeMount : 컴퍼넌트가 DOM에 추가되기 직전
+- mounted : 컴퍼넌트가 DOM에 추가되고나서 호출
+- beforeUpdate : 컴퍼넌트가 DOM에 추가된 후에 데이터가 변형이되면, 재렌더링이 실행된다. 재 렌더링 되기직전의 이벤트 훅
+- updated : 재렌더링을 마치고 난 후의 이벤트 훅
+- beforeDestory : 컴퍼넌트를 빠져나갈때, 다른 컴퍼넌트로 이동할때. 컴퍼넌트가 제거되기 직전에 호출되는 훅
+- destroyed : 컴퍼넌트가 완전히 제거된 후의 훅
+
+
+
+
+
+
+
+** export default ... 를 사용하는 이유는?
 
