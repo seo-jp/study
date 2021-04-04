@@ -223,7 +223,101 @@ new Vue({
 - beforeDestory : 컴퍼넌트를 빠져나갈때, 다른 컴퍼넌트로 이동할때. 컴퍼넌트가 제거되기 직전에 호출되는 훅
 - destroyed : 컴퍼넌트가 완전히 제거된 후의 훅
 
+요런 라이프사이클 시점마다 필요한 코드를 작성할 수 있다.
 
+
+결국 vue에서 가장중요한것은 데이터 핸들링 ..
+
+
+14. Vue 에서 data를 핸들링하는 방법
+
+<script>
+export default {
+    data() {
+        return {
+            
+        }
+    }
+}
+</script>
+
+이 retunr 안에다 핸들링할 데이타를 넣는다.
+
+<template>
+    <div>
+        <h1>Welcome to {{title}}</h1>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            title: "앙꼬오오모리원쥬",
+            title2: "토쿠니꾸망성쥬"
+        }
+    }
+}
+</script>
+
+그리고 {{ }}이걸 이용해 바인딩을 시켜준다.
+
+여기까지는 사용자에게 보여주는방식.
+
+사용자에게서 데이터를 받아올땐?
+
+*html에서의 value = vue 에선 v-model 이다.
+<input type="text" v-model="title2" />
+요런식으로 데이터 바인딩가능. v-model 쓸땐 중괄호 필요없는듯
+
+*html에서의 onclick = vue 에선 @click 이다.
+
+그리고 Vue.js에선 메소드를 정리해두는 공간이 있다.
+
+<script>
+export default {
+    data() {
+        return {
+            title: "앙꼬오오모리원쥬",
+            title2: "토쿠니꾸망성쥬"
+        }
+    },
+    methods: {
+        
+    }
+}
+</script>
+
+바로 요렇게 data는 data대로, method는 method대로 넣어주면됨.
+호오 아주깔끔해
+
+<template>
+    <div>
+        <h1>Welcome to {{title}}</h1>
+        <input type="text" v-model="title2" />
+        <button type="button" @click="getData">Get</button>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            title: "앙꼬오오모리원쥬",
+            title2: "토쿠니꾸망성쥬"
+        }
+    },
+    methods: {
+        getData() {
+            alert(this.title2)
+        }
+    }
+}
+</script>
+
+요런식으로 !
+그리고 사용자가 input값을 바꾸면 title2도 같이 변경이되는걸 확인할수있다.
+뷰는 이렇게 투웨이바인딩을 지원한다.
 
 
 
