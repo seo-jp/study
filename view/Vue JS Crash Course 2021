@@ -149,9 +149,206 @@ export default {
 
 Tasks 기능 추가
 
+* App.vue
+
+<template>
+  <div id="app">
+    <Header title="Task Tracker" />
+    <Tasks :tasks="tasks" />
+    <div id="content" class="content">
+      <router-view></router-view>
+    </div>
+    <FootBar />
+  </div>
+</template>
+
+<script>
+import Header from './components/shared-components/Header.vue'
+import FootBar from './components/shared-components/FootBar.vue'
+import Tasks from './components/shared-components/Tasks.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Header,
+    FootBar,
+    Tasks
+  },
+  data(){
+    return {
+      tasks: [],
+    }
+  },
+  created() {
+    this.tasks = [
+      {
+        id: 1,
+        text: 'Doctors Appointment1',
+        day: 'March 1st at 2:30pm',
+        reminder: true,
+      },
+      {
+        id: 2,
+        text: 'Doctors Appointment2',
+        day: 'March 1st at 3:30pm',
+        reminder: true,
+      },
+      {
+        id: 3,
+        text: 'Doctors Appointment3',
+        day: 'March 1st at 4:30pm',
+        reminder: true,
+      },
+    ] 
+  }
+}
+</script>
+
+App.vue 에 데이터를 미리 추가한다.(create에 추가되면 데이터가 미리 로딩된 후 보여줌)
+
+*Tasks.vue
+
+<template>
+    <ul>
+        <li :key="task.id" v-for="task in tasks">
+            <Task :task="task" />
+        </li>
+    </ul>
+</template>
+
+<script>
+
+import Task from './Task'
+
+export default {
+    name: 'Tasks',
+    props: {
+        tasks: Array
+    },
+    components: {
+        Task
+    }
+};
+</script>
+
+강의는 v-for을 div에 걸어줬는데 똑같이 하니까 계속 오류가났다.
+삽질끝에 알아낸건 div에선 v-for을 걸어주지못하나봄 ..
+내 버전만 그런건지 ,, 그래서 일단 ul li로 바꿔줌
+
+* Task.vue
+
+<template>
+    <div class="task">
+        <h3>{{ task.text }}</h3>
+        <p>{{ task.day }}</p>
+    </div>
+    
+</template>
+
+<script>
+export default {
+    name: 'Task',
+    props: {
+        task: Object
+    }
+}
+</script>
+
+<style scope>
+    .task {
+        background: #f4f4f4;
+        margin: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .task.reminder {
+        border-left: 5px solid green;
+    }
+
+    .task h3 {
+        display: flet;
+        align-items: center;
+    }
+</style>
+
+굳이 Task와 Tasks를 나누는 이유는 뭘까 ..?!
+이렇게 세세하게 다 나눠주는게 좋은구도인건가 ?
 
 
 
+Reminder 된 데이터에 특정스타일 표시하기
+
+*Task.vue
+
+<template>
+    <div :class="[task.reminder ? 'reminder' : '', 'task']">
+        <h3>{{ task.text }}</h3>
+        <i class="fas fa-times"></i>
+        <p>{{ task.day }}</p>
+    </div>
+    
+</template>
+
+<script>
+export default {
+    name: 'Task',
+    props: {
+        task: Object
+    }
+}
+</script>
+
+<style scope>
+    .fas {
+        color: red;
+    }
+
+    .task {
+        background: #f4f4f4;
+        margin: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .task.reminder {
+        border-left: 5px solid green;
+    }
+
+    .task h3 {
+        display: flet;
+        align-items: center;
+    }
+</style>
+
+ <div :class="[task.reminder ? 'reminder' : '', 'task']"> 이렇게 관리하는듯.
+ 
+ <i class="fas fa-times"></i> 같은경우는 cdn에서 가져온 style의 아이콘
+ public index.html에 cnd에서 가져온 링크를 붙여넣기해주면 바로 사용가능하다.
+ 
+ <!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+
+난 요렇게 타이틀 위에 올려놧다.
+
+
+삭제기능 만들기
   
 
 
