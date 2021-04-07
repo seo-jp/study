@@ -1,0 +1,131 @@
+
+view 파일 구조
+
+- package.json
+
+
+- public
+정말 아무것도 할 필요가없음.
+index.html은 브라우저에 로드되는 단일 페이지.
+<div id="app></div>에 모든것을 뱉어냄.
+
+main.js는 기본적인 진입 점.
+App.vue는 크게 세가지 구성요소가 있음.
+템플릿, 스크립트, 스타일
+
+컴포넌트를 구성요소 로서 가져오는방법은?
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+}
+
+</script>
+
+저 export default 부분의 components 에 등록해줘야함.
+
+간단한 구조를 살펴보자면 ..
+
+<template>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js App" />
+</template>
+
+이렇게 msg에 데이터를 작성해준다.
+
+
+그리고 HelloWorld.vue 파일로 가보면 ?
+
+<template>
+  <h1>{{ msg }}</h1>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String
+  }
+}
+</script>
+
+이렇게 props에 msg가! 그리고 뒤는 데이터타입을 서술하는건가...
+대충 이렇게 돌아가는..듯
+
+
+컴포넌트, 구성요소의 재사용
+
+* Button.vue 파일
+
+<template>
+    <button :style="{background: color}">{{ text }}</button>
+</template>
+
+<script>
+export default {
+    name: "Button",
+    props: {
+        text: String,
+        color: String
+    }
+};
+</script>
+
+버튼 기능의 컴포넌트를 하나 제작한다.
+버튼 안에 들어갈 Text와 background 색상을 재사용 할 수 있는 구조이다.
+
+
+* Header.vue 파일
+<template>
+<div>
+  <h1>{{ title }}</h1>
+  <Button text="야후" color="white" />
+  <Button text="대박인데?" color="purple" />
+</div>
+</template>
+
+<script>
+
+import Button from '../shared-small-components/button'
+
+export default {
+    name: "header",
+    components: {
+        Button
+    },
+    props: {
+        title: {
+            type: String,
+            default: 'Hello World',
+        },
+    },
+    data() {
+        return {
+            leftIconShow: false,
+            rihgtIconShow: false,
+        };
+    }
+};
+</script>
+
+<style scoped>
+    header{
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+components 에 Button을 등록 해 주고,여러개의 버튼을 만들어 각각 다른 내용과 배경색을 가질 수 있다.
+
+
+
+
+  
+
+
+
