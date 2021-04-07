@@ -124,6 +124,33 @@ components 에 Button을 등록 해 주고,여러개의 버튼을 만들어 각�
 
 
 
+이벤트 설정 방법
+
+<template>
+    <button @click="onClick()" :style="{background: color}">{{ text }}</button>
+</template>
+
+<script>
+export default {
+    name: "Button",
+    props: {
+        text: String,
+        color: String
+    },
+    methods: {
+        onClick() {
+            console.log('click')
+        },
+    }
+};
+</script>
+
+
+
+Tasks 기능 추가
+
+
+
 
   
 
