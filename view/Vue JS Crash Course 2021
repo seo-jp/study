@@ -400,5 +400,10 @@ emits: ['delete-task']
 왜이런 구조가 나오는건지.. 는 $emit 이벤트전달은 다른 강의도 찾아들어봐야겠다.
 
 
+움,, 대충 해석해봄
 
+일단 부모vue에서 @자식뷰에서의$emit 내용이름 <-- 이 형식으로 emit을 받아오는것이 가능한듯하다.
+그리고 App.vue 에서 this.tasks = this.tasks.filter((task) => task.id !== id) 이부분은
+기존의 tasks에 담겨있는 list들을 재구성 하라는 뜻임.
+고로 filter로 예 아니요를 가려 , tasks에있는 task들을 넣어, 받아온id 즉 삭제하려는 id와 비교하는task.id들을 비교해 같지않은것들만 새로운 this.tasks에 담아준다는 뜻인듯.
 
