@@ -353,5 +353,52 @@ export default {
 - 자식 컴포넌트에서 부모 컴포넌트로 보내는 것이 $emit()
 - 부모 컴포넌트에서 자식 컴포넌트로 보내는것이 props
 
+* Task.vue
+
+-template 부분
+<i @click="onDelete(task.id)" class="fas fa-times"></i>
+이렇게 click을 걸어주고 onDelete라는 메소드에 자신의 id값을 넘겨준다.
+
+-script 부분
+ methods: {
+        onDelete(id) {
+            this.$emit('delete-task', id)
+        }
+    }
+onDelete(id) 메소드를 생성 한 후, $emit으로 id와 delete-task라는 값을 넘겨준다. (Tasks.vue에게)
+
+
+*Tasks.vue
+
+-template 부분
+<li :key="task.id" v-for="task in tasks">
+  <Task @delete-task="$emit('delete-task',task.id)" :task="task" />
+</li>
+
+바로 @delete-task 기재 후 $emit으로 데이터를 보내준다.
+
+-script 부분
+emits: ['delete-task']
+이걸 추가해준다. 왜 이 페이지만 추가해주지 .. ?! @delete-task를 써서그런가?
+
+*App.vue
+
+-template 부분
+<Tasks @delete-task="deleteTask" :tasks="tasks" />
+왜여기선 id를 전달해주지않아도 괜찮은걸까 .. !?
+
+-script 부분
+  methods: {
+    deleteTask(id) {
+      if (confirm('Are you sure?')) {
+        this.tasks = this.tasks.filter((task) => task.id !== id)
+      }
+    }
+  },
+
+...하하
+왜이런 구조가 나오는건지.. 는 $emit 이벤트전달은 다른 강의도 찾아들어봐야겠다.
+
+
 
 
