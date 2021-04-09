@@ -379,7 +379,8 @@ onDelete(id) 메소드를 생성 한 후, $emit으로 id와 delete-task라는 �
 
 -script 부분
 emits: ['delete-task']
-이걸 추가해준다. 왜 이 페이지만 추가해주지 .. ?! @delete-task를 써서그런가?
+이걸 추가해준다. 왜 이 페이지만 추가해주지 .. ?! 뭔가 크롬에서 경고창이떠서 써줬는데..
+이유를 모르겠네 ..?심지어 난 경고창도안뜸..
 
 *App.vue
 
