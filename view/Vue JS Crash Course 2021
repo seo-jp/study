@@ -580,4 +580,118 @@ addTask(task) {
 그리고 받아온 task는 newTask
 
 
+* BTN을 통해 열고닫기 , 열었을떈 Close  닫았을땐 Add Task 라고 문구 바꿔주기
+
+*Button.vue
+
+<template>
+    <button @click="onClick"
+            :style="{background: color}">{{ text }}</button>
+</template>
+
+<script>
+export default {
+    name: "Button",
+    props: {
+        text: String,
+        color: String
+    },
+    methods: {
+        onClick() {
+            this.$emit('btn-click')
+        }
+    }
+};
+</script>
+
+onClick시 btn-click이라는것을 emit해준다.
+
+*Header.vue
+
+<template>
+<div>
+  <h1>{{ title }}</h1>
+  <Button 
+    @btn-click="$emit('toggle-add-task')"
+    :text="showAddTask ? 'Close' : 'Add Task'"
+    :color="showAddTask ? 'red' : 'green'" />
+</div>
+</template>
+
+text와 color부분은 props로 App.vue로부터 showAddTask를 받아와 처리해줄 수 있다.
+
+
+<script>
+
+import Button from '../shared-small-components/button'
+
+export default {
+    name: "header",
+    components: {
+        Button
+    },
+    props: {
+        title: {
+            type: String,
+            default: 'Hello World',
+        },
+        showAddTask: Boolean
+    }
+};
+</script>
+
+
+* App.vue
+
+<template>
+  <div id="app">
+    <Header
+      @toggle-add-task="toggleAddTask"
+      title="Task Tracker"
+      :showAddTask="showAddTask" />
+      
+      헤더에 :showAddTask="showAddTask" 로 props값 전달
+      
+    <div v-show="showAddTask">
+    <AddTask @add-task="addTask" />
+    </div>
+    
+    v-show로 버튼가시성 관리
+    
+    
+    <Tasks  @toggle-reminder="toggleReminder"
+            @delete-task="deleteTask" :tasks="tasks" />
+    <div id="content" class="content">
+      <router-view></router-view>
+    </div>
+    <FootBar />
+  </div>
+</template>
+
+
+script 부분
+
+  data(){
+    return {
+      tasks: [],
+      showAddTask: false
+    }
+  },
+  methods: {
+    toggleAddTask() {
+      this.showAddTask = !this.showAddTask
+    },
+    addTask(task) {
+      this.tasks = [...this.tasks, task]
+    },
+    deleteTask(id) {
+      if (confirm('Are you sure?')) {
+        this.tasks = this.tasks.filter((task) => task.id !== id)
+      }
+    },
+    toggleReminder(id) {
+      this.tasks = this.tasks.map((task) => task.id === id 
+      ? {...task, reminder: !task.reminder} : task)
+    }
+  },
 
