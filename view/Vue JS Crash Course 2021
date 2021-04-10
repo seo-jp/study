@@ -491,3 +491,93 @@ welcome();
 
 filter/map 설명 참고 > https://goddino.tistory.com/95
 
+
+
+
+
+
+** add task 만들기
+
+*addTask.vue 파일 추가
+
+<template>
+    <form @submit="onSubmit" class="add-form">
+        <div class="form-control">
+            <label>Task</label>
+            <input type="text" v-model="text" name="text" placeholder="Add Task" />
+        </div>
+        <div class="form-control">
+            <label>Day & Time</label>
+            <input type="text" v-model="day" name="day" placeholder="Add Day & Time" />
+        </div>
+        <div class="form-control">
+            <label>Set Reminder</label>
+            <input type="checkbox" v-model="reminder" name="reminder" />
+        </div>
+        
+        <input type="submit" value="Save Task" class="btn btn-block" />
+    </form>
+        
+</template>
+
+
+<script>
+export default {
+    name: 'AddTask',
+    data() {
+        return {
+            text: '',
+            day: '',
+            reminder: false,
+        }
+    },
+    methods: {
+        onSubmit(e) {
+            e.preventDefault() //기본이벤트 자동중지
+
+            if(!this.text) {
+                alert('Please add a task')
+                return
+            }
+
+            const newTask = {
+                id: Math.floor(Math.random() * 100000),
+                text: this.text,
+                day: this.day,
+                reminder: this.reminder
+            }
+
+            this.$emit('add-task', newTask)
+
+            this.text = ''
+            this.day = ''
+            this.reminder = ''
+
+        }
+    }
+}
+</script>
+
+v-model로 input과 data를 연동시켜줌.
+그리고 newTask를 emit으로 올려줬다.
+
+*App.vue
+
+template에
+<AddTask @add-task="addTask" />
+추가 해주고
+script에
+import AddTask from './components/shared-components/AddTask.vue'
+추가 후 (component등록도 해주기)
+
+addTask(task) {
+  this.tasks = [...this.tasks, task]
+},
+
+이렇게 메소드 추가해줌.
+
+여기서 ...this.tasks는 아마 배열복사인것같다.
+그리고 받아온 task는 newTask
+
+
+
