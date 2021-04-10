@@ -408,3 +408,86 @@ emits: ['delete-task']
 기존의 tasks에 담겨있는 list들을 재구성 하라는 뜻임.
 고로 filter로 예 아니요를 가려 , tasks에있는 task들을 넣어, 받아온id 즉 삭제하려는 id와 비교하는task.id들을 비교해 같지않은것들만 새로운 this.tasks에 담아준다는 뜻인듯.
 
+filter 함수 : 배열내의 모든 요소를 돌면서 주어진 함수의 조건에 맞는 요소들만을 모아 새로운 배열을 리턴
+
+
+
+* Toggle reminder 만들기
+
+dblclick : 더블클릭이벤트
+
+map 함수 : 배열내의 모든 요소를 돌며 주어진 함수의 결과를 모아 새로운 배열을 리턴.
+array.map(callbackFuntion(currentValue, index, array), thisArg)
+예시
+
+let arr[1,3,5,7,9]
+let map = arr.map( item => item * 2 );
+결과 > (5) [2,6,10,14,18]
+
+
+* Task.vue
+- template
+ <div @dblclick="$emit('toggle-reminder',task.id)"
+        :class="[task.reminder ? 'reminder' : '', 'task']">
+ 더블클릭하면 toggle-reminder를 Tasks로 보내준다.
+ 
+ * Tasks.vue
+ -template
+  <Task @toggle-reminder="$emit('toggle-reminder',task.id)"
+                  @delete-task="$emit('delete-task',task.id)"
+                  :task="task" />
+
+  역시 부모인 App.vue로 toggle-reminder를 보내준다.
+  
+  * App.vue
+  -template
+  <Tasks  @toggle-reminder="toggleReminder"
+            @delete-task="deleteTask" :tasks="tasks" />
+  받아오고 toggleReminder 함수 실행
+  
+  -script
+  toggleReminder(id) {
+      this.tasks = this.tasks.map((task) => task.id === id 
+      ? {...task, reminder: !task.reminder} : task)
+    }
+    
+    map함수 사용해서 받아온 task의 id가 (id) task배열을 돌며 확인하는 id들과 (task.id)
+    일치하는지 체크 ===
+    * == 와 ===의 차이 / ==는 동등연산자로 피연산자가 서로 다른 타입이면 강제변환하여 비교
+    ===는 두 피연산자를 더 정확하게 비교, 일치연산자. 특별경우아닐시 ===사용권장
+    일치하면 : ...task(task의남아있는 모든값), 아니뭔소리야 ..하..
+    ...array 가 특정값설정없이 그대로만쓰면 여기 남아있는 모든값이란 의미같은데 .. 나머지값 이런느김.
+    그래서 저 나머지값의 reminder를 기존의 리마인더와 반대로 설정해라 란 뜻인가..
+    아니면 ...로 복사한건지 아니근데 task는 배열이아니지,,참,,
+    
+    뭔가 객체복사가 제일 그럴듯한듯?!
+    ...task, (해당task복사) reminder: !task.remidner (reminder 다시셋팅) 
+    이렇게 봐야하나?
+    
+    출처 : https://yuddomack.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EB%AC%B8%EB%B2%95-%EB%B9%84%EA%B5%AC%EC%A1%B0%ED%99%94-%ED%95%A0%EB%8B%B9
+    
+    
+  
+    
+    불일치하면 : 그냥 task로 냅두기
+
+
+*** 
+화살표 함수 기본
+let func = (arg1, arg2, ...argN) => expression
+
+인수가 없을땐 괄호를 비움
+let sayHi = () => alert("안녕하세요!");
+
+이렇게 동적활용 가능
+let age = prompt("나이를 알려주세요.", 18);
+
+let welcome = (age < 18) ?
+  () => alert('안녕') :
+  () => alert("안녕하세요!");
+
+welcome();
+
+
+filter/map 설명 참고 > https://goddino.tistory.com/95
+
