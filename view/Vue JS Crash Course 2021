@@ -705,7 +705,32 @@ npm run build
 dist 라는 파일이 생성된다.
 
 그리고 배포된 버전을 실행하고싶을땐
+cd dist로 이동한 후 npm run serve 해주면 실행된다.
 
-serve -s dist
+** JSON-Server Setup
 
-라고 하면되는듯 ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
