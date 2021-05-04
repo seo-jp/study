@@ -3,7 +3,13 @@ knock knock 에러&개발 기록
 
 1. 2021-04-26
 
-프로젝트 server 에러 (404오류)
+STS 프로젝트 server 에러 (404오류)
 >> 1. Build Path > Apache 라이브러리 추가
 >> 2. Server > Web Modules > Path를 /Knock 에서 / 로 변경
+
+2. 2021-05-04
+
+VUE 431 (request header fields too large) 에러
+>> 크롬 캐시쿠키 삭제해봐도 소용없음.
+>> https://www.programmersought.com/article/83765493021/
 
