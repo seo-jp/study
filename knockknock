@@ -13,3 +13,5 @@ VUE 431 (request header fields too large) 에러
 >> 크롬 캐시쿠키 삭제해봐도 소용없음.
 >> https://www.programmersought.com/article/83765493021/
 
+>> basciUrl : require('../../../assets/img/basicProfile.png')
+하.. 데이터에 require을 안붙여줘서였음. 바로 img src="경로" 하는경우는 상관없는데 변수사용하려면 require가 필요
