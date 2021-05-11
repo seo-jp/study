@@ -15,3 +15,10 @@ VUE 431 (request header fields too large) 에러
 
 >> basciUrl : require('../../../assets/img/basicProfile.png')
 하.. 데이터에 require을 안붙여줘서였음. 바로 img src="경로" 하는경우는 상관없는데 변수사용하려면 require가 필요
+
+3. 2021-05-12
+
+EXPRESS과 VUE URL 처리
+localhost:3000/ 에서 vue router의 url은 인식되지않는다.
+이런문제는 https://github.com/bripkens/connect-history-api-fallback 이것을 통해 해결.
+https://fkkmemi.github.io/nemv/nemv-011-express-vue-router/ 참고
