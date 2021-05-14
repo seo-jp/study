@@ -1,0 +1,46 @@
+Promise
+
+비동기를 간편하게 처리할수있도록 도와주는 오브젝트
+비동기 > 시간을 가지고 처리를 해야할 작업시 사용
+정해진 장시간의 기능을 수행하고나서 정상적으로 수행됬다면 처리된 결과값 전달.
+에러시 에러전달.
+
+
+// Promise is a Javascript object for asynchronous operation.
+
+1. state : pending(지정operation수행) -> fulfilled(완벽히 완료한 상태) or rejected (에러)
+2. producer (원하는 기능을 수행해서 해당하는 데이터를 만들어냄) vs consumer (원하는 데이터를 소비)
+
+// producer part
+// promise는 class 입니다.
+
+const promise = new Promise((resolve, reject) => {
+  // doing some heavy work (network, read files 등등은 비동기로 처리하는게 좋다)
+  console.log('doing something ...');
+  //프로미스는 만들어지는 그 순간 그 작업을 실행함.그렇기에 .. 
+  //어떤조건이 있어야할 때는 주의해서 작성하자
+  
+  setTimeout(() => {
+    resolve('success'); //성공시
+    reject(new Error('no network'));
+  }, 2000);
+
+});
+// (resolve -> 성공 / reject -> 실패)
+
+
+// consumers : then catch finally 등을 이용해 값을 받아 올 수 있다.
+promise.then((value) => {
+  console.log(value);
+  //어떤기능을 하는 콜백함수 작성하면됨.
+})
+.catch(error => {
+  console.log(error);
+})
+.finally(() => {console.log('end')});
+
+//then > 이 promise가 잘 작성된다면 value(값)을 가져와 어떠어떠한 행동(콜백함수)를 해라..
+// catch는 error를 받아옴
+// finally는 성공 실패여부를 떠나 무조건 실행되는것.
+
+
